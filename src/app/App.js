@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class App extends Component{
 
-  constructor(){
+  constructor(){ //Elementos de las notas
     super();
     this.state = {
       title: '',
@@ -11,12 +11,12 @@ class App extends Component{
       _id: ''
     };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChange = this.handleChange.bind(this); 
     this.addTask = this.addTask.bind(this);
 
   }
 
-  addTask(e){
+  addTask(e){ //Añadir una tarea de cero o despues de editarla.
     if(this.state._id){
       fetch(`/api/tasks/${this.state._id}`, {
         method: 'PUT',
@@ -53,11 +53,11 @@ class App extends Component{
     e.preventDefault();
   }
 
-  componentDidMount(){
+  componentDidMount(){//Extraer datos una vez que se monta el servidor
     this.fetchTasks();
   }
 
-  fetchTasks(){
+  fetchTasks(){//Función que extrae los datos del servidor
     fetch('/api/tasks')
       .then(res => res.json())
       .then(data => {
@@ -66,7 +66,7 @@ class App extends Component{
       })
   }
 
-  deleteTask(id){
+  deleteTask(id){// Eliminar tarea según id extraido
     if(confirm('Are you sure you want to delete it?')) {
       fetch(`/api/tasks/${id}`, {
         method: 'DELETE',
@@ -82,20 +82,20 @@ class App extends Component{
     }
   }
 
-  editTask(id){
-    fetch(`/api/tasks/${id}`)
+  editTask(id){ //edición de tarea
+    fetch(`/api/tasks/${id}`) //fetch de información
       .then(res => res.json())
-      .then(data => {
+      .then(data => { //extracción de información
         console.log(data);
-        this.setState({
+        this.setState({ //seteo de información
           title: data.title,
           description: data.description,
           _id: data._id
-        })
+        })//datos requeridos
       });
   }
 
-  handleChange(e){
+  handleChange(e){ //metodo que guarda los cambios de valor
     const { name, value } = e.target;
     this.setState({
       [name]: value
